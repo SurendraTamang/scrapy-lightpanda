@@ -34,7 +34,7 @@ PLAYWRIGHT_BROWSER_PROVIDER = "scrapy_lightpanda.LightpandaBrowserProvider"
 
 Then request pages with `meta={"playwright": True}`, as with any scrapy-playwright spider.
 
-Runnable spiders (JS pagination, infinite scroll, delayed content) are in [`examples/`](examples/).
+Runnable spiders (JS pagination, infinite scroll, delayed content) are in [`examples/`](https://github.com/SurendraTamang/scrapy-lightpanda/tree/main/examples).
 
 ### Options
 
@@ -53,7 +53,7 @@ Telemetry: Lightpanda sends usage telemetry by default. This provider sets `LIGH
 
 ## Benchmark
 
-Measured on an Apple Silicon Mac (macOS 26, Python 3.14, Lightpanda 1.0.2, Chromium Headless Shell 151, Camoufox 156.0.1-beta.36), October 2026. CPU time is user + system time summed over every process involved, and stands in for energy use. Your numbers will differ; rerun the scripts in `benchmarks/`.
+Measured on an Apple Silicon Mac (macOS 26, Python 3.14, Lightpanda 1.0.2, Chromium Headless Shell 151, Camoufox 156.0.1-beta.36), October 2026. CPU time is user + system time summed over every process involved, and stands in for energy use. Your numbers will differ; rerun the scripts in [`benchmarks/`](https://github.com/SurendraTamang/scrapy-lightpanda/tree/main/benchmarks).
 
 ### Full Scrapy crawl
 
