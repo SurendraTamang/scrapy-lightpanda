@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "scrapy-lightpanda"
+dynamic = ["version"]
+description = "Run Scrapy + scrapy-playwright on the Lightpanda headless browser"
+readme = "README.md"
+license = "BSD-3-Clause"
+requires-python = ">=3.10"
+dependencies = ["scrapy-playwright>=0.0.48"]
+keywords = ["scrapy", "scrapy-playwright", "playwright", "lightpanda", "headless-browser", "web-scraping", "web-crawler", "javascript-rendering", "cdp", "crawler"]
+classifiers = [
+    "Framework :: Scrapy",
+    "Programming Language :: Python :: 3",
+]
+
+[project.optional-dependencies]
+test = ["pytest", "psutil"]
+bench = ["psutil", "camoufox"]
+
+[tool.hatch.version]
+path = "src/scrapy_lightpanda/__init__.py"
+
+[tool.pytest.ini_options]
+markers = ["network: hits a real website and needs the lightpanda binary"]
