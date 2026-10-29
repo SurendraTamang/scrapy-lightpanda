@@ -1,0 +1,20 @@
+name: test
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install Lightpanda
+        run: |
+          curl -sSL -o /usr/local/bin/lightpanda https://github.com/lightpanda-io/browser/releases/latest/download/lightpanda-x86_64-linux
+          chmod +x /usr/local/bin/lightpanda
+          lightpanda version
+      - run: pip install -e '.[test]'
+      - run: pytest -v
