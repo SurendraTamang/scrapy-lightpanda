@@ -34,6 +34,8 @@ PLAYWRIGHT_BROWSER_PROVIDER = "scrapy_lightpanda.LightpandaBrowserProvider"
 
 Then request pages with `meta={"playwright": True}`, as with any scrapy-playwright spider.
 
+Runnable spiders (JS pagination, infinite scroll, delayed content) are in [`examples/`](examples/).
+
 ### Options
 
 `PLAYWRIGHT_LAUNCH_OPTIONS` is reused for the Lightpanda process:
