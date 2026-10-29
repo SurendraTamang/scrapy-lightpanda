@@ -49,6 +49,38 @@ Any other key raises `NotConfigured`, because Lightpanda is not launched through
 
 Telemetry: Lightpanda sends usage telemetry by default. This provider sets `LIGHTPANDA_DISABLE_TELEMETRY=true` unless you set it yourself.
 
+## Benchmark
+
+Measured on an Apple Silicon Mac (macOS 26, Python 3.14, Lightpanda 1.0.2, Chromium Headless Shell 151, Camoufox 156.0.1-beta.36), October 2026. CPU time is user + system time summed over every process involved, and stands in for energy use. Your numbers will differ; rerun the scripts in `benchmarks/`.
+
+### Full Scrapy crawl
+
+The test spider crawls all 10 pages of [quotes.toscrape.com/js](https://quotes.toscrape.com/js/) (JavaScript-rendered). Median of 3 runs. Numbers cover the whole crawl: Scrapy, the Playwright driver and the browser.
+
+| Browser | Complete items per run | CPU time (s) | Peak RAM (MB) | Wall time (s) |
+|---|---|---|---|---|
+| **Lightpanda** | 100/100/100 | **2.03** | **434** | 8.2 |
+| Chromium headless | 100/100/100 | 3.69 | 1340 | **4.7** |
+| Chromium headless, 1 page at a time | 100/100/100 | 3.86 | 695 | 13.3 |
+
+`python benchmarks/scrapy_bench.py 3`
+
+Lightpanda used about half the CPU and a third of the memory of Chromium. Chromium finished faster because it loads pages in parallel; with the same one-page limit, it was slower than Lightpanda.
+
+### Browser only
+
+Each browser launched and loaded the page 5 times, driven by Playwright. Single run.
+
+| Site | Lightpanda | Chromium headless | Camoufox |
+|---|---|---|---|
+| Hacker News | **0.27 s CPU · 55 MB** | 0.76 s · 338 MB | 35.3 s · 2672 MB (4/5 loads) |
+| Wikipedia article | **0.81 s · 90 MB** | 1.70 s · 496 MB | 39.6 s · 2370 MB |
+| BBC News | **4.41 s · 144 MB** | 6.88 s · 758 MB | 42.4 s · 2510 MB |
+
+`python benchmarks/browsers_bench.py` (needs `camoufox`)
+
+Camoufox is an anti-detection Firefox and pays a large fixed startup cost. Use it only for sites that block other browsers.
+
 ## Limitations
 
 - One page at a time. A Lightpanda CDP connection holds a single browser context with a single page, so the provider sets `PLAYWRIGHT_MAX_PAGES_PER_CONTEXT = 1` and browser requests queue instead of failing. Named contexts (`playwright_context` meta) other than the default are not supported. Plain (non-`playwright`) requests still run concurrently.
